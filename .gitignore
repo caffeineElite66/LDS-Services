@@ -1,0 +1,9 @@
+lib/
+target/
+.settings
+.project
+.classpath
+*MANIFEST.MF
+.metadata/
+.idea
+service-lds.iml
