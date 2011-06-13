@@ -24,18 +24,12 @@ public class JpaQuestionDao implements QuestionDao {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Question> findQuestionsByTag(List<String> tags) {
-		String query = "select distinct q from Question q left join q.tags t where ";
-		for (Iterator<String> i = tags.iterator(); i.hasNext();) {
-			query += "t.value='" + i.next() + "'";
-			if (i.hasNext()) {
-				query += " or ";
-			}
-		}
-        query += " order by q.id ASC";
+		String query = "select distinct q from Question q where q.tags.value in (:tags)";
+
 		if (logger.isDebugEnabled()) {
 			logger.debug("QUERY: " + query);
 		}
-		return entityManager.createQuery(query).getResultList();
+		return entityManager.createQuery(query).setParameter("tags", tags).getResultList();
 
 	}
 
